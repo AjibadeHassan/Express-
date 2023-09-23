@@ -41,6 +41,12 @@ app.get('/groceries', (req,res)=>{
     
 })
 
+app.get('/groceries/:item',(req,res)=>{
+    const {item} = req.params;
+    const groceryItem = groceryList.find(g => g.item === item)
+    res.send(groceryItem);
+})
+
 app.post('/groceries', (req,res)=>{
     groceryList.push(req.body)
     console.log(groceryList)
