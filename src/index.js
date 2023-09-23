@@ -4,31 +4,45 @@ const express = require('express');
 const app = express();
 const PORT = 3001;
 
-app.listen(PORT, ()=>{
-    console.log('HELLO')
+app.use(express.json());
+app.use(express.urlencoded())
+app.use((req,res,next) =>{
+    console.log(req.url);
+    next()
 })
 
-const groceryList = []
+app.listen(PORT, ()=>{
+    console.log(groceryList)
+})
+
+const groceryList = [
+    {
+        item: "milk",
+        price: 2000,
+        quantity: 20
+
+    },
+    {
+        item: "cheese",
+        price: 2000,
+        quantity: 20
+
+    },
+    {
+        item: "butter",
+        price: 2000,
+        quantity: 20
+
+    },
+]
 
 app.get('/groceries', (req,res)=>{
-    res.send([
-        {
-            item: "milk",
-            price: 2000,
-            quantity: 20
-
-        },
-        {
-            item: "cheese",
-            price: 2000,
-            quantity: 20
-
-        },
-        {
-            item: "diapers",
-            price: 2000,
-            quantity: 20
-
-        },
-    ])
+    res.send(groceryList)
+    
 })
+
+app.post('/groceries', (req,res)=>{
+    groceryList.push(req.body)
+    console.log(groceryList)
+    res.send(201)
+});
