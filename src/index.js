@@ -7,7 +7,7 @@ const PORT = 3001;
 
 app.use(express.json());
 app.use(express.urlencoded());
-app.use('/api/groceries/',groceriesStoreRoutes)
+app.use('/api/groceries',groceriesStoreRoutes)
 app.use('/api/markets', marketRoutes)
 app.use((req,res,next) =>{
     console.log(req.url);

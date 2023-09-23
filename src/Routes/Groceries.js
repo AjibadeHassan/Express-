@@ -24,7 +24,7 @@ const groceryList = [
 ]
 
 
-router.get('', (req,res)=>{
+router.get('/', (req,res)=>{
     res.send(groceryList)
     
 })
@@ -35,7 +35,7 @@ router.get('/:item',(req,res)=>{
     res.send(groceryItem);
 })
 
-router.post('', (req,res)=>{
+router.post('/', (req,res)=>{
     groceryList.push(req.body)
     console.log(groceryList)
     res.send(201)
