@@ -23,6 +23,14 @@ const groceryList = [
     },
 ]
 
+router.use((req,res,next)=>{
+    if(req.session.user){
+        next()
+    } else {
+        res.send(401)
+    }
+})
+
 
 router.get('/', (req,res)=>{
     res.cookie('visited', true, {

@@ -2,6 +2,7 @@ const express = require('express');
 const groceriesStoreRoutes = require('./Routes/Groceries')
 const marketRoutes = require('./Routes/Markets')
 const cartRoutes = require('./Routes/Cart')
+const AuthRoutes = require('./Auth')
 const session = require('express-session')
 const cookieParser = require('cookie-parser')
 
@@ -19,6 +20,7 @@ app.use(session({
 app.use('/api/groceries',groceriesStoreRoutes)
 app.use('/api/markets', marketRoutes)
 app.use('/api/shopping/cart', cartRoutes)
+app.use('/api/auth', AuthRoutes)
 app.use((req,res,next) =>{
     console.log(req.url);
     next()

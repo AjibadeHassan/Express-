@@ -2,6 +2,14 @@ const { Router } = require('express');
 
 const router = Router();
 
+router.use((req,res,next)=>{
+    if(req.session.user){
+        next()
+    } else {
+        res.send(401)
+    }
+})
+
 router.get('/', (req,res)=> {
     const {cart} = req.session;
     if(!cart) {
