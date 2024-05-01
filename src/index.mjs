@@ -19,7 +19,7 @@ app.get("/", (req, res)=>{
 })
 
 app.get('/api/users', (req, res)=>{
-    res.send(mockUsers)
+    res.send(mockUsers).status(200)
        
 })
 
@@ -30,7 +30,8 @@ app.get('/api/users/:id', (req,res)=>{
     const findUsers = mockUsers.find((users)=> users.id === parsedID)
     if(isNaN(parsedID)) return res.sendStatus(404);
 
-    if(findUsers) return res.send(findUsers)
+    if(!findUsers) return res.sendStatus(404);
+    res.send(mockUsers[parsedID]).status(200)
     
 })
 
@@ -80,6 +81,37 @@ app.patch('/api/users/:id', (req, res)=>{
     res.status(200).send(body)
 
 })
+
+
+// DELETE METHOD
+
+app.delete('/api/users/:id', (req, res)=>{
+    const {
+        params : { id }
+    } = req;
+
+    const parsedID = parseInt(id);
+    if(isNaN(parsedID)) return res.sendStatus(400)
+    const findUser = mockUsers.findIndex((user)=> user.id === parsedID)
+    
+    if(findUser === -1) return res.sendStatus(404);
+    mockUsers.splice(findUser, 1);
+
+    res.sendStatus(200);
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 app.listen(PORT, ()=>{
     // console.log(`Running server on port ${PORT}`)
