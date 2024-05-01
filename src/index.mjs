@@ -12,6 +12,8 @@ const mockUsers = [
     {'id':2, 'name': 'samad', 'displayName': 'Samad' }
 ]
 
+// GET METHODS
+
 app.get("/", (req, res)=>{
     res.status(200).send( {msg: 'hello'})
 })
@@ -21,13 +23,6 @@ app.get('/api/users', (req, res)=>{
        
 })
 
-app.post('/api/users', (req, res)=>{
-    const { body } = req
-    const newUser = { id: mockUsers.length, ...body}
-    mockUsers.push(newUser)
-    // console.log(req.body.name)
-    res.status(201).send(newUser)
-})
 
 app.get('/api/users/:id', (req,res)=>{
     const parsedID = parseInt(req.params.id)
@@ -38,6 +33,17 @@ app.get('/api/users/:id', (req,res)=>{
     if(findUsers) return res.send(findUsers)
     
 })
+
+// POST METHOD 
+app.post('/api/users', (req, res)=>{
+    const { body } = req
+    const newUser = { id: mockUsers.length, ...body}
+    mockUsers.push(newUser)
+    // console.log(req.body.name)
+    res.status(201).send(newUser)
+})
+
+// PUT METHOD
 
 app.put('/api/users/:id', (req, res)=> {
     const {
@@ -54,6 +60,25 @@ app.put('/api/users/:id', (req, res)=> {
 
     mockUsers[findUser] = {id: parsedID, ...body}
     res.sendStatus(204)
+})
+
+// PATCH METHOD
+
+app.patch('/api/users/:id', (req, res)=>{
+    const {
+        body,
+        params : { id }
+    } = req;
+
+    const parsedID = parseInt(id);
+    if(isNaN(parsedID)) return res.sendStatus(400)
+    const findUser = mockUsers.findIndex((user)=> user.id === parsedID)
+    
+    if(findUser === -1) return res.sendStatus(404);
+
+    mockUsers[findUser] = { ...mockUsers[findUser], ...body}
+    res.status(200).send(body)
+
 })
 
 app.listen(PORT, ()=>{
