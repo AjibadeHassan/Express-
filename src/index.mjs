@@ -1,4 +1,6 @@
 import express, { json } from "express";
+import { query, body, validationResult, matchedData, checkSchema } from 'express-validator'
+import { createValidationSchema } from "./utils/ValidationSchema.mjs";
 
 const app = express()
 
@@ -38,7 +40,10 @@ const mockUsers = [
 
 // GET METHODS
 
-app.get("/", (req, res)=>{
+app.get("/", query('filter').isString().notEmpty(),
+       (req, res)=>{
+        const result = validationResult(req)
+        console.log(result)
     res.status(200).send( {msg: 'hello'})
 })
 
@@ -58,12 +63,18 @@ app.get('/api/users/:id', resolveIndexByUserId, (req,res)=>{
 })
 
 // POST METHOD 
-app.post('/api/users', (req, res)=>{
-    const { body } = req
-    const newUser = { id: mockUsers.length, ...body}
-    mockUsers.push(newUser)
-    // console.log(req.body.name)
-    res.status(201).send(newUser)
+app.post('/api/users', checkSchema(createValidationSchema),
+        (req, res)=>{
+            const result = validationResult(req)
+
+            if(!result.isEmpty()) return res.status(400).send({ error: result.array()})
+            const data = matchedData(req)
+
+            
+            const newUser = { id: mockUsers.length, ...data}
+            mockUsers.push(newUser)
+            // console.log(req.body.name)
+            res.status(201).send(newUser)
 })
 
 // PUT METHOD
