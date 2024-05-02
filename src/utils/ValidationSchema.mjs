@@ -1,4 +1,4 @@
-export const createValidationSchema = {
+export const createUserValidationSchema = {
     username: {
         isString: true,
         notEmpty: {
@@ -25,5 +25,12 @@ export const createValidationSchema = {
             },
             errorMessage: 'between 5 - 32 characters',
         }
+    }
+}
+ 
+export const queryValidationSchema = {
+    filter: {
+        isString: { errorMessage: 'query must be a string'},
+        notEmpty: { errorMessage: 'query cannot be empty'},
     }
 }
