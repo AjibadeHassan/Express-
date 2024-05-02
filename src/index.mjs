@@ -1,11 +1,12 @@
 import express, { json } from "express";
 import { validationResult, checkSchema } from 'express-validator'
 import cookieParser from "cookie-parser";
-import userRouter from '../Routes/Users.mjs'
 import { mockUsers } from "./utils/Constant.mjs";
+import indexRouter from "../Routes/Index.mjs"
 import { loggingMiddleware } from "./utils/Middlewares.mjs";
-import productRouter from '../Routes/Products.mjs'
 import session from "express-session";
+import passport from "passport";
+import './Strategies/Strategies.mjs'
 
 
 const app = express()
@@ -20,8 +21,11 @@ app.use(session({
         maxAge: 60000 * 60
     }
 }))
-app.use(productRouter)
-app.use(userRouter)
+
+app.use(passport.initialize())
+app.use(passport.session())
+
+app.use(indexRouter)
 app.use(loggingMiddleware)
 
 

@@ -1,6 +1,6 @@
 export const mockUsers = [
-    {'id':0, 'name': 'hassan', 'displayName': 'Hassan'},
-    {'id':1, 'name': 'emma', 'displayName': 'Emma' },
-    {'id':2, 'name': 'samad', 'displayName': 'Samad' }
+    {'id':0, 'username': 'hassan', 'displayName': 'Hassan', 'password': 'hellow'},
+    {'id':1, 'username': 'emma', 'displayName': 'Emma', 'password': 'hellow123' },
+    {'id':2, 'username': 'samad', 'displayName': 'Samad', 'password': 'hellow234' }
 ]
 
