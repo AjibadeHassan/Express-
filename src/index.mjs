@@ -6,10 +6,15 @@ import indexRouter from "../Routes/Index.mjs"
 import { loggingMiddleware } from "./utils/Middlewares.mjs";
 import session from "express-session";
 import passport from "passport";
+import mongoose from "mongoose";
 import './Strategies/Strategies.mjs'
 
 
 const app = express()
+
+mongoose.connect('mongodb://localhost/express_tutorial')
+.then(()=> console.log('connected to the database'))
+.catch((err)=> console.log(`Error: ${err}`))
 
 app.use(json())
 app.use(cookieParser())
