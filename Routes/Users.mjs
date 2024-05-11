@@ -22,11 +22,16 @@ router.get('/api/users/:id', resolveIndexByUserId, (req,res)=>{
     
 })
 
-router.post('/api/users', async (req, res)=>{
+router.post('/api/users', checkSchema(createUserValidationSchema), async (req, res)=>{
     const { body } = req;
+
+    const result = validationResult(req);
+    if(!result.isEmpty()) return res.status(400).send(result.array());
+
     const newUser = new User(body)
     try {
     const savedUser = await newUser.save()
+    console.log(savedUser)
     res.send(savedUser).status(201);
     } catch(err) {
         console.log(err)
