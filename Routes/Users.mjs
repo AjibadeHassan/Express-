@@ -4,11 +4,17 @@ import { checkSchema, validationResult, matchedData } from "express-validator";
 import { createUserValidationSchema } from "../src/utils/ValidationSchema.mjs";
 import { resolveIndexByUserId } from "../src/utils/Middlewares.mjs";
 import { User } from "../src/Mongoose/Schemas/User.mjs";
+import { hashPassword, verifyPassword } from "../src/utils/Helpers.mjs"
 
 const router = Router()
 
 router.get('/api/users', (req, res)=>{
-    res.send(mockUsers).status(200)
+
+    const { body } = req;
+
+    const newUser = new User(body)
+
+    // res.send(mockUsers).status(200)
        
 })
 
@@ -27,7 +33,8 @@ router.post('/api/users', checkSchema(createUserValidationSchema), async (req, r
 
     const result = validationResult(req);
     if(!result.isEmpty()) return res.status(400).send(result.array());
-
+    body.password = await hashPassword(body.password)
+    console.log(body.password)
     const newUser = new User(body)
     try {
     const savedUser = await newUser.save()
