@@ -4,7 +4,7 @@ import { checkSchema, validationResult, matchedData } from "express-validator";
 import { createUserValidationSchema } from "../src/utils/ValidationSchema.mjs";
 import { resolveIndexByUserId } from "../src/utils/Middlewares.mjs";
 import { User } from "../src/Mongoose/Schemas/User.mjs";
-import { hashPassword, verifyPassword } from "../src/utils/Helpers.mjs"
+import { hashPassword } from "../src/utils/Helpers.mjs"
 
 const router = Router()
 
